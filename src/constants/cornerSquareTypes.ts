@@ -11,4 +11,5 @@ export default {
   rightBottomCircle: "circle-right-bottom",
   circleInSquare: "circle-in-square",
   peanut: "peanut",
+  paragonal: "paragonal",
 } as CornerSquareTypes;

@@ -24,11 +24,11 @@
           roundSize: false
         },
         cornersDotOptions: {
-          type: "square",
+          type: "dot",
           color: "#4267b2"
         },
         cornersSquareOptions: {
-          type: "square",
+          type: "dotted-square",
           color: "#4267b2"
         },
         backgroundOptions: {
@@ -41,161 +41,161 @@
           imageSize: 0.7
         }
       };
-      // const options2 = {
-      //   width: 500,
-      //   height: 700,
-      //   type: "svg",
-      //   data: "h",
-      //   image: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
-      //   dotsOptions: {
-      //     type: "extra-rounded",
-      //     roundSize: false,
+      const options2 = {
+        width: 500,
+        height: 700,
+        type: "svg",
+        data: "h",
+        image: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
+        dotsOptions: {
+          type: "star",
+          roundSize: false,
 
-      //     gradient: {
-      //       type: "linear", //radial,
-      //       rotation: Math.PI / 2,
-      //       colorStops: [
-      //         { offset: 0, color: "black" },
-      //         { offset: 1, color: "green" }
-      //       ]
-      //     }
-      //   },
-      //   cornersSquareOptions: {
-      //     type: "rounded",
-      //     gradient: {
-      //       type: "linear",
-      //       rotation: Math.PI / 2,
-      //       colorStops: [
-      //         {
-      //           offset: 0,
-      //           color: "black"
-      //         },
-      //         {
-      //           offset: 1,
-      //           color: "red"
-      //         }
-      //       ]
-      //     }
-      //   },
-      //   cornersDotOptions: {
-      //     type: "rounded",
-      //     gradient: {
-      //       type: "linear",
-      //       rotation: Math.PI / 2,
-      //       colorStops: [
-      //         {
-      //           offset: 0,
-      //           color: "black"
-      //         },
-      //         {
-      //           offset: 1,
-      //           color: "red"
-      //         }
-      //       ]
-      //     }
-      //   },
-      //   backgroundOptions: {
-      //     gradient: {
-      //       type: "linear",
-      //       rotation: Math.PI / 2,
-      //       colorStops: [
-      //         {
-      //           offset: 0,
-      //           color: "white"
-      //         },
-      //         {
-      //           offset: 1,
-      //           color: "red"
-      //         }
-      //       ]
-      //     }
-      //   },
-      //   imageOptions: {
-      //     crossOrigin: "anonymous",
-      //     margin: 30
-      //   }
-      // };
-      // const options3 = {
-      //   width: 500,
-      //   height: 500,
-      //   type: "svg",
-      //   data: "h",
-      //   image: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
-      //   dotsOptions: {
-      //     roundSize: false,
+          gradient: {
+            type: "linear", //radial,
+            rotation: Math.PI / 2,
+            colorStops: [
+              { offset: 0, color: "black" },
+              { offset: 1, color: "green" }
+            ]
+          }
+        },
+        cornersSquareOptions: {
+          type: "rounded",
+          gradient: {
+            type: "linear",
+            rotation: Math.PI / 2,
+            colorStops: [
+              {
+                offset: 0,
+                color: "black"
+              },
+              {
+                offset: 1,
+                color: "red"
+              }
+            ]
+          }
+        },
+        cornersDotOptions: {
+          type: "rounded",
+          gradient: {
+            type: "linear",
+            rotation: Math.PI / 2,
+            colorStops: [
+              {
+                offset: 0,
+                color: "black"
+              },
+              {
+                offset: 1,
+                color: "red"
+              }
+            ]
+          }
+        },
+        backgroundOptions: {
+          gradient: {
+            type: "linear",
+            rotation: Math.PI / 2,
+            colorStops: [
+              {
+                offset: 0,
+                color: "white"
+              },
+              {
+                offset: 1,
+                color: "red"
+              }
+            ]
+          }
+        },
+        imageOptions: {
+          crossOrigin: "anonymous",
+          margin: 30
+        }
+      };
+      const options3 = {
+        width: 500,
+        height: 500,
+        type: "svg",
+        data: "h",
+        image: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
+        dotsOptions: {
+          roundSize: false,
 
-      //     type: "extra-rounded",
-      //     gradient: {
-      //       type: "radial", //radial,
-      //       rotation: Math.PI / 2,
-      //       colorStops: [
-      //         { offset: 0, color: "black" },
-      //         { offset: 1, color: "green" }
-      //       ]
-      //     }
-      //   },
-      //   cornersSquareOptions: {
-      //     type: "rounded",
-      //     gradient: {
-      //       type: "radial",
-      //       rotation: Math.PI / 2,
-      //       colorStops: [
-      //         {
-      //           offset: 0,
-      //           color: "black"
-      //         },
-      //         {
-      //           offset: 1,
-      //           color: "red"
-      //         }
-      //       ]
-      //     }
-      //   },
-      //   cornersDotOptions: {
-      //     type: "rounded",
-      //     gradient: {
-      //       type: "radial",
-      //       rotation: Math.PI / 2,
-      //       colorStops: [
-      //         {
-      //           offset: 0,
-      //           color: "black"
-      //         },
-      //         {
-      //           offset: 1,
-      //           color: "red"
-      //         }
-      //       ]
-      //     }
-      //   },
-      //   backgroundOptions: {
-      //     gradient: {
-      //       type: "radial",
-      //       rotation: Math.PI / 2,
-      //       colorStops: [
-      //         {
-      //           offset: 0,
-      //           color: "white"
-      //         },
-      //         {
-      //           offset: 1,
-      //           color: "red"
-      //         }
-      //       ]
-      //     }
-      //   },
-      //   imageOptions: {
-      //     crossOrigin: "anonymous",
-      //     margin: 30
-      //   }
-      // };
+          type: "heart",
+          gradient: {
+            type: "radial", //radial,
+            rotation: Math.PI / 2,
+            colorStops: [
+              { offset: 0, color: "black" },
+              { offset: 1, color: "green" }
+            ]
+          }
+        },
+        cornersSquareOptions: {
+          type: "rounded",
+          gradient: {
+            type: "radial",
+            rotation: Math.PI / 2,
+            colorStops: [
+              {
+                offset: 0,
+                color: "black"
+              },
+              {
+                offset: 1,
+                color: "red"
+              }
+            ]
+          }
+        },
+        cornersDotOptions: {
+          type: "rounded",
+          gradient: {
+            type: "radial",
+            rotation: Math.PI / 2,
+            colorStops: [
+              {
+                offset: 0,
+                color: "black"
+              },
+              {
+                offset: 1,
+                color: "red"
+              }
+            ]
+          }
+        },
+        backgroundOptions: {
+          gradient: {
+            type: "radial",
+            rotation: Math.PI / 2,
+            colorStops: [
+              {
+                offset: 0,
+                color: "white"
+              },
+              {
+                offset: 1,
+                color: "red"
+              }
+            ]
+          }
+        },
+        imageOptions: {
+          crossOrigin: "anonymous",
+          margin: 30
+        }
+      };
       const qrCode1 = new QRCodeStyling(options1);
-      // const qrCode2 = new QRCodeStyling({ ...options1, type: "png" });
-      // const qrCode3 = new QRCodeStyling(options3);
+      const qrCode2 = new QRCodeStyling({ ...options1, type: "png" });
+      const qrCode3 = new QRCodeStyling(options3);
 
       qrCode1.append(document.getElementById("canvas1"));
-      // qrCode2.append(document.getElementById("canvas2"));
-      // qrCode3.append(document.getElementById("canvas3"));
+      qrCode2.append(document.getElementById("canvas2"));
+      qrCode3.append(document.getElementById("canvas3"));
 
       function updateQRCodeStyling(type) {
         qrCode1.update({ ...options1, type });

@@ -45,6 +45,9 @@ export default class QRCornerSquare {
       case cornerSquareTypes.peanut:
         drawFunction = this._drawPeanutShape;
         break;
+      case cornerSquareTypes.paragonal:
+        drawFunction = this._drawParagonalShape;
+        break;
       case cornerSquareTypes.dot:
       default:
         drawFunction = this._drawDot;
@@ -447,71 +450,76 @@ export default class QRCornerSquare {
   }
 
   _basicPeanutShape(args: BasicFigureDrawArgs): void {
-    const { size, x, y, rotation = 0 } = args;
-    const radius = size / 2.2; // Adjust this value to control the rounding radius
-    const innerSquareSize = size / 1.4; // Size of the inner square
-    const innerSquareRadius = innerSquareSize / 2.2; // Radius for the inner square
-    const innerX = x + (size - innerSquareSize) / 2; // X position for the inner square
-    const innerY = y + (size - innerSquareSize) / 2; // Y position for the inner square
-
-    // Center coordinates for rotation
-    const cx = x + size / 2;
-    const cy = y + size / 2;
+    // Peanut: TL and BR corners are square; TR and BL corners are rounded.
+    // Matches EyeFrame8 icon (M13 25.5 C...2.5 15 V2.5 H15 C...25.5 13 V25.5 H13 Z).
+    const { size, x, y } = args;
+    const d = size / 7;       // frame thickness
+    const r = size * 0.45;    // large radius for the two rounded corners (TR and BL)
+    const ri = r - d;         // inner radius
 
     this._rotateFigure({
       ...args,
       draw: () => {
-        // Create the combined path for the outer and inner shapes
-        const pathData =
-          `M ${x + radius} ${y}` + // Start at the top-left flat edge
-          `H ${x + size - radius}` + // Draw a horizontal line to the right
-          `a ${radius} ${radius} 0 0 1 ${radius} ${radius}` + // Draw the top-right arc
-          `V ${y + size - radius}` + // Draw a vertical line down to the bottom-right flat edge
-          `a ${radius} ${radius} 0 0 1 -${radius} ${radius}` + // Draw the bottom-right arc
-          `H ${x + radius}` + // Draw a horizontal line to the left
-          `a ${radius} ${radius} 0 0 1 -${radius} -${radius}` + // Draw the bottom-left arc
-          `V ${y + radius}` + // Draw a vertical line up to the starting point
-          `a ${radius} ${radius} 0 0 1 ${radius} -${radius}` + // Draw the top-left arc
-          `Z` + // Close the outer path
-          `M ${innerX + innerSquareRadius} ${innerY}` + // Start at the top-left flat edge of the inner square
-          `H ${innerX + innerSquareSize - innerSquareRadius}` + // Draw a horizontal line to the right
-          `a ${innerSquareRadius} ${innerSquareRadius} 0 0 1 ${innerSquareRadius} ${innerSquareRadius}` + // Draw the top-right arc
-          `V ${innerY + innerSquareSize - innerSquareRadius}` + // Draw a vertical line down to the bottom-right flat edge
-          `a ${innerSquareRadius} ${innerSquareRadius} 0 0 1 -${innerSquareRadius} ${innerSquareRadius}` + // Draw the bottom-right arc
-          `H ${innerX + innerSquareRadius}` + // Draw a horizontal line to the left
-          `a ${innerSquareRadius} ${innerSquareRadius} 0 0 1 -${innerSquareRadius} -${innerSquareRadius}` + // Draw the bottom-left arc
-          `V ${innerY + innerSquareRadius}` + // Draw a vertical line up to the starting point
-          `a ${innerSquareRadius} ${innerSquareRadius} 0 0 1 ${innerSquareRadius} -${innerSquareRadius}` + // Draw the top-left arc
-          `Z`; // Close the inner path
-
         this._element = this._window.document.createElementNS("http://www.w3.org/2000/svg", "path");
         this._element.setAttribute("clip-rule", "evenodd");
-        this._element.setAttribute("d", pathData);
-        this._element.setAttribute("fill", "none"); // Set fill to none for the outer shape
-        this._element.setAttribute("stroke", "black"); // Set the stroke color
-        this._element.setAttribute("stroke-width", "1"); // Set the stroke width
+        // Outer path (clockwise): TL square → top → TR arc → right → BR square → bottom → BL arc → left
+        const outer =
+          `M ${x} ${y}` +
+          `H ${x + size - r}` +
+          `A ${r} ${r} 0 0 1 ${x + size} ${y + r}` +
+          `V ${y + size}` +
+          `H ${x + r}` +
+          `A ${r} ${r} 0 0 1 ${x} ${y + size - r}` +
+          `V ${y}` +
+          `Z`;
+        // Inner path (clockwise, inset by d): same shape, cut out as hole via evenodd
+        const inner =
+          `M ${x + d} ${y + d}` +
+          `H ${x + size - d - ri}` +
+          `A ${ri} ${ri} 0 0 1 ${x + size - d} ${y + d + ri}` +
+          `V ${y + size - d}` +
+          `H ${x + d + ri}` +
+          `A ${ri} ${ri} 0 0 1 ${x + d} ${y + size - d - ri}` +
+          `V ${y + d}` +
+          `Z`;
+        this._element.setAttribute("d", outer + inner);
+      }
+    });
+  }
 
-        // Create the inner shape path
-        const innerPath = this._window.document.createElementNS("http://www.w3.org/2000/svg", "path");
-        innerPath.setAttribute("clip-rule", "evenodd");
-        innerPath.setAttribute(
+  _basicParagonalShape(args: BasicFigureDrawArgs): void {
+    // Parallelogram: vertical right side, horizontal bottom, diagonal left and top sides.
+    // Matches EyeFrame5 icon (M32.9 7.5 V30.5 H9.6 L3.3 3.2 Z, viewBox 36×34).
+    const { size, x, y } = args;
+    const d = size / 7; // frame thickness
+
+    // Outer vertices (proportions from EyeFrame5 SVG: x/36, y/34 scaled to size×size)
+    const oAx = x + size * 0.9143, oAy = y + size * 0.2216; // top-right  (A)
+    const oBx = x + size * 0.9143, oBy = y + size * 0.8957; // bottom-right (B)
+    const oCx = x + size * 0.2680, oCy = y + size * 0.8957; // bottom-left  (C)
+    const oDx = x + size * 0.0918, oDy = y + size * 0.0942; // top-left     (D)
+
+    // Inner vertices (each edge offset inward by d, computed via perpendicular projection)
+    // Edge A-B (vertical right):  inward normal = (-1, 0)
+    // Edge B-C (horizontal bottom): inward normal = (0, -1)
+    // Edge C-D (diagonal left):   inward normal = (0.9767, -0.2147)
+    // Edge D-A (diagonal top):    inward normal = (-0.1531, 0.9882)
+    const iAx = oAx - d,            iAy = oAy + 0.857 * d;  // intersection of offset A-B and D-A
+    const iBx = oBx - d,            iBy = oBy - d;           // intersection of offset A-B and B-C
+    const iCx = oCx + 0.804 * d,   iCy = oCy - d;           // intersection of offset B-C and C-D
+    const iDx = oDx + 1.290 * d,   iDy = oDy + 1.212 * d;  // intersection of offset C-D and D-A
+
+    this._rotateFigure({
+      ...args,
+      draw: () => {
+        this._element = this._window.document.createElementNS("http://www.w3.org/2000/svg", "path");
+        this._element.setAttribute("clip-rule", "evenodd");
+        // Outer (clockwise: A→B→C→D) + Inner (counter-clockwise: iA→iD→iC→iB) = frame shape
+        this._element.setAttribute(
           "d",
-          `M ${innerX + innerSquareRadius} ${innerY}` + // Start at the top-left flat edge
-            `H ${innerX + innerSquareSize - innerSquareRadius}` + // Draw a horizontal line to the right
-            `a ${innerSquareRadius} ${innerSquareRadius} 0 0 1 ${innerSquareRadius} ${innerSquareRadius}` + // Draw the top-right arc
-            `V ${innerY + innerSquareSize - innerSquareRadius}` + // Draw a vertical line down to the bottom-right flat edge
-            `a ${innerSquareRadius} ${innerSquareRadius} 0 0 1 -${innerSquareRadius} ${innerSquareRadius}` + // Draw the bottom-right arc
-            `H ${innerX + innerSquareRadius}` + // Draw a horizontal line to the left
-            `a ${innerSquareRadius} ${innerSquareRadius} 0 0 1 -${innerSquareRadius} -${innerSquareRadius}` + // Draw the bottom-left arc
-            `V ${innerY + innerSquareRadius}` + // Draw a vertical line up to the starting point
-            `a ${innerSquareRadius} ${innerSquareRadius} 0 0 1 ${innerSquareRadius} -${innerSquareRadius}` + // Draw the top-left arc
-            `Z`
+          `M ${oAx} ${oAy} L ${oBx} ${oBy} L ${oCx} ${oCy} L ${oDx} ${oDy} Z` +
+          `M ${iAx} ${iAy} L ${iDx} ${iDy} L ${iCx} ${iCy} L ${iBx} ${iBy} Z`
         );
-        innerPath.setAttribute("transform", `rotate(${(rotation * 180) / Math.PI}, ${cx}, ${cy})`);
-        innerPath.setAttribute("fill", "white"); // Set fill to white for the inner shape
-
-        // Append the elements to the SVG container
-        this._element.appendChild(innerPath);
       }
     });
   }
@@ -586,5 +594,9 @@ export default class QRCornerSquare {
 
   _drawPeanutShape({ x, y, size, rotation }: DrawArgs): void {
     this._basicPeanutShape({ x, y, size, rotation });
+  }
+
+  _drawParagonalShape({ x, y, size, rotation }: DrawArgs): void {
+    this._basicParagonalShape({ x, y, size, rotation });
   }
 }
