@@ -13,6 +13,14 @@ export default {
   plus: "plus",
   cross: "cross",
   verticalBar: "vertical-bar",
+  verticalSquareBar: "vertical-square-bar",
   horizontalBar: "horizontal-bar",
-  concaveSquare: "concave-square"
+  horizontalGridBar: "horizontal-grid-bar",
+  concaveSquare: "concave-square",
+  smallRounded: "small-rounded",
+  squareBar: "square-bar",
+  classyDot: "classy-dot",
+  diamondRounded: "diamond-rounded",
+  classySquare: "classy-square",
+  cube: "cube"
 } as DotTypes;

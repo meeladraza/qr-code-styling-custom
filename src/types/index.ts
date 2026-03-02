@@ -16,7 +16,7 @@ export type DotType =
   | "star"
   | "heart"
   | "diamond"
-  // | "cube"
+  | "cube"
   | "concave-square"
   | "rounded-plus"
   | "plus"
@@ -24,7 +24,14 @@ export type DotType =
   | "rounded-cross"
   | "vertical-bar"
   | "vertical-bar-rounded"
-  | "horizontal-bar";
+  | "vertical-square-bar"
+  | "horizontal-bar"
+  | "horizontal-grid-bar"
+  | "small-rounded"
+  | "square-bar"
+  | "classy-dot"
+  | "diamond-rounded"
+  | "classy-square";
 export type CornerDotType =
   | "dot"
   | "square"
